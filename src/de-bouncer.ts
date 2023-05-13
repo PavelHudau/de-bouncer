@@ -1,6 +1,6 @@
-import { CancellationToken } from './cancellation-token';
+import CancellationToken from './cancellation-token';
 
-export class DeBouncer {
+export default class DeBouncer {
   readonly #maxDelayMs: number;
   readonly #minDelayMs: number;
   readonly #delayNoise: number;
@@ -27,6 +27,10 @@ export class DeBouncer {
     }
 
     return Promise.resolve(currentToken);
+  }
+
+  public tryCancel(): void {
+    this.#latestToken?.cancel();
   }
 
   get #nowTimeInMs(): number {

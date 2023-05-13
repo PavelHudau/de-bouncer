@@ -1,4 +1,4 @@
-export class CancellationToken {
+export default class CancellationToken {
   #isCancelled: boolean = false;
 
   public get isCancelled(): boolean {
