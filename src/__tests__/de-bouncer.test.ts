@@ -201,17 +201,18 @@ test("DeBouncer delay decreases with increasing frequency", async () => {
     }
 });
 
-
-// test("", async () => {
-//     // GIVEN
-//     const deBouncer = new DeBouncer(maxDelayForTestDeBouncer);
-//     let tracker = new DeBouncerTracker();
-//     // WHEN
-//     const promise = deBouncer.debounce().then(cancellationToken => {
-//         tracker.trackCancellationToken(cancellationToken);
-//     });
-//     await Promise.allSettled([promise]);
-//     // THEN
-//     expect(tracker.passes).toBe(1);
-//     expect(tracker.bounces).toBe(0);
-// });
+test("DeBouncer does not exceed MAX delay", async () => {
+    // GIVEN
+    const iterations = 3;
+    let tracker: DurationTracker = new DurationTracker();
+    const deBouncer = new DeBouncer(maxDelayForTestDeBouncer, 0, 0);
+    // WHEN
+    await deBouncer.debounce();
+    // Capture time we waited for debounce to resolve.
+    tracker.start();
+    await deBouncer.debounce();
+    tracker.stop();
+    // THEN
+    const acceptableDelta = 1.25;
+    expect(tracker.duration).toBeLessThan(maxDelayForTestDeBouncer * acceptableDelta);
+});
