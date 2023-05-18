@@ -47,7 +47,7 @@ class DurationTracker {
     }
 
     public stop(): void {
-        this._duration= (new Date().getTime()) - this._start;
+        this._duration = (new Date().getTime()) - this._start;
     }
 }
 
@@ -184,14 +184,14 @@ test("DeBouncer delay decreases with increasing frequency", async () => {
         const delayMs = (i + 1) * 300;
         promises.push(
             deBouncer.debounce()
-            .then(async () => {
-                // Await to simulate that we are waiting between de-bounce calls. 
-                await delay(delayMs);
-                // Capture time we waited for debounce to resolve.
-                trackers[iCapture].start();
-                await deBouncer.debounce();
-                trackers[iCapture].stop()
-            })
+                .then(async () => {
+                    // Await to simulate that we are waiting between de-bounce calls. 
+                    await delay(delayMs);
+                    // Capture time we waited for debounce to resolve.
+                    trackers[iCapture].start();
+                    await deBouncer.debounce();
+                    trackers[iCapture].stop()
+                })
         );
     }
     await Promise.allSettled(promises);
