@@ -34,6 +34,23 @@ class DeBouncerTracker {
     }
 }
 
+class DurationTracker {
+    private _start: number = 0;
+    private _duration: number = 0;
+
+    public get duration(): number {
+        return this._duration;
+    }
+
+    public start(): void {
+        this._start = new Date().getTime();
+    }
+
+    public stop(): void {
+        this._duration= (new Date().getTime()) - this._start;
+    }
+}
+
 test("DeBouncer single call completes", async () => {
     // GIVEN
     const deBouncer = new DeBouncer(maxDelayForTestDeBouncer);
@@ -111,7 +128,7 @@ test("DeBouncer try cancel when multiple calls, nothing passes through", async (
 
     await Promise.allSettled(promises);
     // THEN
-    for (let i = 0; i < iterations ; i++) {
+    for (let i = 0; i < iterations; i++) {
         // Nothing passes
         expect(trackers[i].bounces).toBe(1);
         expect(trackers[i].passes).toBe(0);
@@ -154,6 +171,35 @@ test("DeBouncer cancel multiple calls, then start new so it passes", async () =>
     expect(trackers[iterations - 1].passes).toBe(1);
 });
 
+test("DeBouncer delay decreases with increasing frequency", async () => {
+    // GIVEN
+    const iterations = 3;
+    // const deBouncer = new DeBouncer(maxDelayForTestDeBouncer, 0);
+    let trackers: Array<DurationTracker> = new Array(iterations).fill(null).map(i => new DurationTracker());
+    let promises: Array<Promise<CancellationToken | void>> = [];
+    // WHEN
+    for (let i = 0; i < iterations; i++) {
+        const deBouncer = new DeBouncer(999, 0, 0);
+        const iCapture = i;
+        const delayMs = (i + 1) * 300;
+        promises.push(
+            deBouncer.debounce()
+            .then(async () => {
+                // Await to simulate that we are waiting between de-bounce calls. 
+                await delay(delayMs);
+                // Capture time we waited for debounce to resolve.
+                trackers[iCapture].start();
+                await deBouncer.debounce();
+                trackers[iCapture].stop()
+            })
+        );
+    }
+    await Promise.allSettled(promises);
+    // THEN
+    for (let i = 0; i < iterations - 1; i++) {
+        expect(trackers[i].duration).toBeGreaterThan(trackers[i + 1].duration);
+    }
+});
 
 
 // test("", async () => {

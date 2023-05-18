@@ -42,8 +42,8 @@ export default class DeBouncer {
     // Frequency is a difference in milliseconds between subsequent actions.
     const frequency = nowTimeInMs - this.#latestDebounceTimeMs;
     this.#latestDebounceTimeMs = nowTimeInMs;
-    const P0 = 2;
-    const k = -2.5;
+    const P0 = 2000;
+    const k = -0.0025;
     let delayMs = Math.floor(P0 * Math.pow(Math.E, k * frequency));
     delayMs = Math.min(delayMs, this.#maxDelayMs);
     return Math.max(delayMs, this.#minDelayMs);
