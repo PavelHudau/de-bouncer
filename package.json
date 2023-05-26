@@ -1,6 +1,6 @@
 {
   "name": "de-bouncer",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "TypeScript and JavaScript De-Bouncer implementation",
   "main": "index.js/de-bouncer.js",
   "types": "lib/de-bouncer.d.ts",
