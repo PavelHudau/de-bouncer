@@ -7,14 +7,14 @@ export default class DeBouncer {
     #latestToken: CancellationToken = new CancellationToken();
     #latestDebounceTimeMs: number = 0;
 
-    constructor(maxDelayMs: number = 3000, minDelayMs: number = 0, delayNoise: number = 40) {
+    constructor(maxDelayMs: number = 3000, minDelayMs: number = 0, delayNoiseMs: number = 40) {
         // Make sure #maxDelayMs is greater than 0;
         this.#maxDelayMs = Math.max(maxDelayMs, 0);
         // Make sure #minDelayMs is greater than 0 and less or equal to #maxDelayMs;
         this.#minDelayMs = Math.min(Math.max(minDelayMs, 0), this.#maxDelayMs);
         // #delayNoise must be less or equal to #maxDelayMs,
         // otherwise all delays will be considered as noise and will be ignored.
-        this.#delayNoise = Math.min(delayNoise, this.#maxDelayMs);
+        this.#delayNoise = Math.min(delayNoiseMs, this.#maxDelayMs);
     }
 
     public async debounce(): Promise<CancellationToken> {
