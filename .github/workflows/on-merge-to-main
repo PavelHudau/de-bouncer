@@ -4,8 +4,6 @@
 name: Publish Package
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
     types:
