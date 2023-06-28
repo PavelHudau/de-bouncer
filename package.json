@@ -1,7 +1,7 @@
 {
-  "name": "de-bouncer",
+  "name": "@pavelhudau/de-bouncer",
   "version": "0.0.1",
-  "description": "TypeScript and JavaScript De-Bouncer implementation",
+  "description": "TypeScript and JavaScript De-Bouncer implementation.",
   "main": "index.js/de-bouncer.js",
   "types": "lib/de-bouncer.d.ts",
   "scripts": {
@@ -9,17 +9,20 @@
     "lint": "tslint -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "test": "jest --config jestconfig.json",
-    "prepare" : "npm run build",
-    "prepublishOnly" : "npm test && npm run lint",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src",
-    "postversion" : "git push && git push --tags"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PavelHudau/de-bouncer.git"
   },
-  "keywords": ["DeBouncer", "De Bounce"],
+  "keywords": [
+    "DeBouncer",
+    "De Bounce"
+  ],
   "author": "Pavel Hudau",
   "license": "MIT",
   "bugs": {
@@ -29,6 +32,9 @@
   "files": [
     "lib/**/*"
   ],
+  "directories": {
+    "lib": "lib"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.1",
     "eslint": "^8.40.0",
