@@ -32,6 +32,9 @@
   "files": [
     "lib/**/*"
   ],
+  "directories": {
+    "lib": "lib"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.1",
     "eslint": "^8.40.0",
