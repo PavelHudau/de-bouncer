@@ -131,3 +131,6 @@ dist
 
 # Compiles
 /lib
+
+# Mac
+.DS_Store
