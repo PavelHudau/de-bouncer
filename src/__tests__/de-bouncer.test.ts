@@ -1,5 +1,5 @@
 import CancellationToken from '../cancellation-token';
-import DeBouncer, { ExponentialDebounceStrategy, IBoundaries } from '../de-bouncer';
+import DeBouncer, { ExponentialDebounceStrategy, IBoundaries, IDebounceStrategy } from '../de-bouncer';
 
 async function delay(delayByMs: number): Promise<boolean> {
   return new Promise((resolve) => {
@@ -114,7 +114,7 @@ test('DeBouncer multiple calls bounced, only last one completes', async () => {
   expect(trackers[iterations - 1].passes).toBe(1);
 });
 
-test('DeBouncer try cancel when multiple calls, nothing passes through', async () => {
+test('DeBouncer try cancel after multiple calls, all calls are bounced', async () => {
   // GIVEN
   const iterations = 5;
   const deBouncer = new DeBouncer(new ExponentialDebounceStrategy(), defaultTestBoundaries());
@@ -134,15 +134,14 @@ test('DeBouncer try cancel when multiple calls, nothing passes through', async (
   deBouncer.tryCancel();
 
   await Promise.allSettled(promises);
-  // THEN
+  // THEN - each call is bounced
   for (let i = 0; i < iterations; i++) {
-    // Nothing passes
     expect(trackers[i].bounces).toBe(1);
     expect(trackers[i].passes).toBe(0);
   }
 });
 
-test('DeBouncer cancel multiple calls, then start new so it passes', async () => {
+test('DeBouncer cancel multiple calls, then start new call and it passes', async () => {
   // GIVEN
   const iterations = 5;
   const deBouncer = new DeBouncer(new ExponentialDebounceStrategy(), defaultTestBoundaries());
@@ -178,7 +177,7 @@ test('DeBouncer cancel multiple calls, then start new so it passes', async () =>
   expect(trackers[iterations - 1].passes).toBe(1);
 });
 
-test('DeBouncer delay decreases with increasing frequency', async () => {
+test('DeBouncer using ExponentialStrategy, delay decreases with increasing frequency', async () => {
   // GIVEN
   const iterations = 3;
   // const deBouncer = new DeBouncer(maxDelayForTestDeBouncer, 0);
@@ -207,7 +206,7 @@ test('DeBouncer delay decreases with increasing frequency', async () => {
   }
 });
 
-test('DeBouncer does not exceed MAX delay', async () => {
+test('DeBouncer tries not to exceed MAX delay', async () => {
   // GIVEN
   const acceptableDelta = 1.25;
   const maxDelayMs = 50;
@@ -221,4 +220,16 @@ test('DeBouncer does not exceed MAX delay', async () => {
   tracker.stop();
   // THEN
   expect(tracker.duration).toBeLessThan(maxDelayMs * acceptableDelta);
+});
+
+/// Test exponential strategy
+
+test('ExponentialStrategy delay increases with increase frequency', async () => {
+  // GIVEN
+  let strategy: IDebounceStrategy = new ExponentialDebounceStrategy();
+  // WHEN
+  const secondDelay = strategy.nextDelayMs(1000, 0);
+  const halfASecondDelay = strategy.nextDelayMs(500, 0);
+  // THEN
+  expect(secondDelay).toBeLessThan(halfASecondDelay);
 });

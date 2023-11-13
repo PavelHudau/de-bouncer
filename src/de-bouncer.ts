@@ -28,12 +28,13 @@ export interface IBoundaries {
 }
 
 export class ExponentialDebounceStrategy implements IDebounceStrategy {
+  static readonly #P0 = 2000;
+  static readonly #k = -0.0025;
+
   public nextDelayMs(nowTimeMs: number, latestDebounceTimeMs: number): number {
     // Frequency is a difference in milliseconds between subsequent actions.
     const frequency = nowTimeMs - latestDebounceTimeMs;
-    const P0 = 2000;
-    const k = -0.0025;
-    const delayMs = Math.floor(P0 * Math.pow(Math.E, k * frequency));
+    const delayMs = Math.floor(ExponentialDebounceStrategy.#P0 * Math.pow(Math.E, ExponentialDebounceStrategy.#k * frequency));
     return delayMs;
   }
 }
