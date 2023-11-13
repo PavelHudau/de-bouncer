@@ -233,3 +233,13 @@ test('ExponentialStrategy delay increases with increase frequency', async () => 
   // THEN
   expect(secondDelay).toBeLessThan(halfASecondDelay);
 });
+
+test('ExponentialStrategy when now time is less than last debounced, then delay is max', async () => {
+  // GIVEN
+  const maxDelay = 4000;
+  let strategy: IDebounceStrategy = new ExponentialDebounceStrategy(maxDelay);
+  // WHEN
+  const secondDelay = strategy.nextDelayMs(0, 1);
+  // THEN
+  expect(secondDelay).toEqual(maxDelay);
+});
