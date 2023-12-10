@@ -1,5 +1,5 @@
-import CancellationToken from '../cancellation-token';
-import DeBouncer, { ExponentialDebounceStrategy, IBoundaries, IDebounceStrategy } from '../de-bouncer';
+import DeBouncer, { ExponentialDebounceStrategy, CancellationToken } from '../de-bouncer';
+import type { IBoundaries, IDebounceStrategy } from '../de-bouncer';
 
 async function delay(delayByMs: number): Promise<boolean> {
   return new Promise((resolve) => {
