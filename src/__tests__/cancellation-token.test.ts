@@ -1,4 +1,4 @@
-import CancellationToken from '../cancellation-token';
+import { CancellationToken } from '../de-bouncer';
 
 test('CancellationToken is not cancelled when constructed', () => {
   // GIVEN

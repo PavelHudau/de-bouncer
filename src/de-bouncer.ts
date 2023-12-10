@@ -1,5 +1,3 @@
-import CancellationToken from './cancellation-token';
-
 export interface IDebounceStrategy {
   nextDelayMs: (nowTimeMs: number, latestDebounceTimeMs: number) => number
 }
@@ -27,6 +25,29 @@ export interface IBoundaries {
   delayNoiseMs: number
 }
 
+export class CancellationToken {
+  #isCancelled: boolean = false;
+
+  /**
+   * Checks whether the cancellation token was cancelled.
+   */
+  public get isCancelled(): boolean {
+    return this.#isCancelled;
+  }
+
+  /**
+   * Moves the cancellation token into cancelled state.
+   * The function is idempotent and can be invoked multiple times.
+   */
+  public cancel(): void {
+    this.#isCancelled = true;
+  }
+}
+
+/**
+ * Debouncer strategy that increases debounce delay exponentially
+ * with increase frequency of debounce calls.
+ */
 export class ExponentialDebounceStrategy implements IDebounceStrategy {
   static readonly #k = -0.0025;
   readonly #P0: number = 2000;
@@ -43,6 +64,13 @@ export class ExponentialDebounceStrategy implements IDebounceStrategy {
   }
 }
 
+/**
+ * Creates default debounce boundaries that work in most of the cases.
+ * @param maxDelayMsOverride Maximum delay in milliseconds that the strategy will ever return.
+ * @param minDelayMsOverride Minimum delay in milliseconds that the strategy will ever return.
+ * @param delayNoiseMsOverride Number of milliseconds below which the delay is ignored.
+ * @returns 
+ */
 export function defaultBoundaries(
   maxDelayMsOverride: number = 3000,
   minDelayMsOverride: number = 0,
@@ -54,6 +82,9 @@ export function defaultBoundaries(
   };
 }
 
+/**
+ * The Debounce implementation.
+ */
 export default class DeBouncer {
   readonly #debounceStrategy: IDebounceStrategy;
   readonly #maxDelayMs: number;
@@ -73,6 +104,13 @@ export default class DeBouncer {
     this.#delayNoise = Math.min(boundaries.delayNoiseMs, this.#maxDelayMs);
   }
 
+  /**
+   * Calculates debounce delay based on frequency using debounceStrategy.
+   * Awaits for the calculated number if milliseconds.
+   * @returns A promise that resolves when DeBouncer delay is expired.
+   * The promise returns a CancellationToken that can be used to check
+   * whether the call was cancelled before delay expired.
+   */
   public async debounce(): Promise<CancellationToken> {
     this.#latestToken.cancel();
     const currentToken = new CancellationToken();
@@ -85,6 +123,10 @@ export default class DeBouncer {
     return Promise.resolve(currentToken);
   }
 
+  /**
+   * Cancels the latest debounce call.
+   * The function is idempotent and can be called multiple times.
+   */
   public tryCancel(): void {
     this.#latestToken?.cancel();
   }
