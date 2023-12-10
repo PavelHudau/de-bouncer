@@ -1,5 +1,8 @@
-import DeBouncer, { ExponentialDebounceStrategy, CancellationToken } from '../de-bouncer';
-import type { IBoundaries, IDebounceStrategy } from '../de-bouncer';
+import DeBouncer from '../de-bouncer';
+import CancellationToken from '../cancellation-token';
+import { ExponentialDebounceStrategy } from '../debounce-strategies';
+import type {IDebounceStrategy } from '../debounce-strategies';
+import type { IBoundaries } from '../boundaries';
 
 async function delay(delayByMs: number): Promise<boolean> {
   return new Promise((resolve) => {
@@ -8,8 +11,6 @@ async function delay(delayByMs: number): Promise<boolean> {
     }, delayByMs);
   });
 }
-
-// const maxDelayForTestDeBouncer = 50;
 
 function defaultTestBoundaries(
   maxDelayMsOverride: number = 50,
