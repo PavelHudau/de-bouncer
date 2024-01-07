@@ -57,10 +57,10 @@ export default class DeBouncer {
   }
 
   #nextDelayMs(): number {
-    const nowTimeInMs = this.#nowTimeInMs;
+    const nowTimeInMsLatest = this.#nowTimeInMs;
     const latestDebounceTimeMs = this.#latestDebounceTimeMs;
-    this.#latestDebounceTimeMs = nowTimeInMs;
-    let delayMs = this.#debounceStrategy.nextDelayMs(nowTimeInMs, latestDebounceTimeMs);
+    this.#latestDebounceTimeMs = nowTimeInMsLatest;
+    let delayMs = this.#debounceStrategy.nextDelayMs(nowTimeInMsLatest, latestDebounceTimeMs);
     delayMs = Math.min(delayMs, this.#maxDelayMs);
     return Math.max(delayMs, this.#minDelayMs);
   }
