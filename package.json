@@ -2,10 +2,17 @@
   "name": "@pavelhudau/de-bouncer",
   "version": "0.0.2",
   "description": "TypeScript and JavaScript De-Bouncer implementation.",
-  "main": "lib/de-bouncer.js",
-  "types": "lib/de-bouncer.d.ts",
+  "exports": {
+    ".": "./dist/de-bouncer.js",
+    "./debounce-strategies" : "./dist/debounce-strategies.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["./dist/*"]
+    }
+  },
   "scripts": {
-    "clean": "rm -rf _bundles lib",
+    "clean": "rm -rf bundles lib dist",
     "build": "tsc & webpack",
     "lint": "eslint --config .eslintrc.json --ext .js,.ts src/",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -32,7 +39,8 @@
   "homepage": "https://github.com/PavelHudau/de-bouncer#README.md",
   "files": [
     "lib/**/*",
-    "_bundles/**/*"
+    "dist/**/*",
+    "bundles/**/*"
   ],
   "directories": {
     "lib": "lib"

@@ -136,4 +136,4 @@ dist
 .DS_Store
 
 # Webpack
-_bundles/
+bundles/
