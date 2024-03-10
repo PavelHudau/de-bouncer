@@ -19,8 +19,8 @@ module.exports = {
     },
     devtool: 'source-map',
     output: {
-        path: path.resolve(__dirname, '_bundles'),
-        filename: '[name].js',
+        path: path.resolve(__dirname, 'lib'),
+        filename: '[name]-bundle.js',
         libraryTarget: 'umd',
         library: 'de-bouncer',
         umdNamedDefine: true,

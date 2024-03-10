@@ -1,7 +1,7 @@
-import CancellationToken from "./cancellation-token";
-import { defaultBoundaries } from "./boundaries";
-import type { IBoundaries } from "./boundaries";
-import type { IDebounceStrategy } from "./debounce-strategies";
+import CancellationToken from './cancellation-token';
+import { defaultBoundaries } from './boundaries';
+import type { IBoundaries } from './boundaries';
+import type { IDebounceStrategy } from './debounce-strategies';
 
 /**
  * The Debounce implementation.
