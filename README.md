@@ -1,18 +1,21 @@
 # de-bouncer
 
 TypeScript and JavaScript De-Bouncer implementation.
-Primarily is written for UIs, e.g. Single Page web applications.
+Primarily is written for UIs, e.g. Single Page web applicatio
 
-## How to use
+More details and motivation on the implemented DeBouncer can be found in [the De Bounce post](https://programhappy.net/2023/04/29/de-bouncer/).
 
-The example uses DeBouncer to debounce a `onFooButtonClick()` button click event handler.
+## How to use example
+
+The example uses DeBouncer to debounce a `handleFooButtonClick` event handler, that make an expensive api call to weather api.
+
 ```js
 import DeBouncer from '@pavelhudau/de-bouncer';
 import { ExponentialDebounceStrategy } from '@pavelhudau/de-bouncer/debounce-strategies';
 
 const fooButtonDeBouncer = new DeBouncer(new ExponentialDebounceStrategy());
 
-const handleButtonClick = async () => {
+const handleFooButtonClick = async () => {
     // Await for DeBouncer delay.
     // Keep the latest clicked token for further use.
     const currentToken = await fooButtonDeBouncer.debounce()
@@ -33,4 +36,3 @@ const handleButtonClick = async () => {
 }
 ```
 
-More details and motivation on the implemented DeBouncer can be found in [the De Bounce post](https://programhappy.net/2023/04/29/de-bouncer/).

@@ -20,7 +20,8 @@
     "ignorePatterns": [
         "node_modules/",
         "lib/",
-        "_bundles/"
+        "bundles/",
+        "examples"
     ],
     "rules": {
         "@typescript-eslint/no-unused-vars": "error"
