@@ -1,13 +1,13 @@
 # de-bouncer
 
 TypeScript and JavaScript De-Bouncer implementation.
-Primarily is written for UIs, e.g. Single Page web applicatio
+Primarily is written for UIs, e.g. Single Page web applications.
 
 More details and motivation on the implemented DeBouncer can be found in [the De Bounce post](https://programhappy.net/2023/04/29/de-bouncer/).
 
-## How to use example
+## How to use DeBouncer
 
-The example uses DeBouncer to debounce a `handleFooButtonClick` event handler, that make an expensive api call to weather api.
+The example uses DeBouncer to debounce a `handleFooButtonClick` event handler, that makes an expensive api call to weather api.
 
 ```js
 import DeBouncer from '@pavelhudau/de-bouncer';
@@ -36,3 +36,17 @@ const handleFooButtonClick = async () => {
 }
 ```
 
+## Example App
+
+Example application can be found in [examples/my-react-app](./examples/my-react-app/).
+The application implements a simple click counter.
+To see DeBouncer in action:
+- Try to click the button rapidly multiple times. The counter will be incremented immediately after the fist click and after the last click only.
+- Now try to click slowly and see how every click increments the counter.
+
+### Start example app
+
+To initialize and start the example app:
+1. Run `cd examples/my-react-app`.
+1. Run `initialize.sh` which will build and install local version of de-bouncer package into the example app.
+1. Run `npm run start` and the example application will start.
