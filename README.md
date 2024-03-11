@@ -7,9 +7,12 @@ Primarily is written for UIs, e.g. Single Page web applications.
 
 The example uses DeBouncer to debounce a `onFooButtonClick()` button click event handler.
 ```js
-const fooButtonDeBouncer = new DeBouncer();
+import DeBouncer from '@pavelhudau/de-bouncer';
+import { ExponentialDebounceStrategy } from '@pavelhudau/de-bouncer/debounce-strategies';
 
-async function onFooButtonClick() {
+const fooButtonDeBouncer = new DeBouncer(new ExponentialDebounceStrategy());
+
+const handleButtonClick = async () => {
     // Await for DeBouncer delay.
     // Keep the latest clicked token for further use.
     const currentToken = await fooButtonDeBouncer.debounce()
