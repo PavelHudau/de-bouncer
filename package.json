@@ -17,13 +17,12 @@
     "clean": "rm -rf bundles lib dist",
     "build": "tsc & webpack",
     "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --config .eslintrc.json --ext .js,.ts,.tsx src/",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" && git add -A src && git commit -m 'auto-format files'",
     "test": "jest --config jestconfig.json",
-    "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
-    "version": "npm run format && git add -A src && npm version patch",
-    "postversion": "git push && git push --tags"
+    "version": "npm version patch",
+    "pushall": "git push && git push --tags"
   },
   "repository": {
     "type": "git",

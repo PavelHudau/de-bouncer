@@ -22,6 +22,10 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm test
+      - run: npm run lint
+      - run: npm run format
+      - run: npm run version
+      - run: npm run pushall
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.DE_BOUNCER_PUBLISH_TOKEN_GITHUB }}
