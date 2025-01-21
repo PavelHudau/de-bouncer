@@ -21,8 +21,8 @@
     "test": "jest --config jestconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
-    "version": "npm run format && git add -A src && npm version patch",
+    "preversion": "npm run lint && npm run format && git add -A src && git commit -m 'formatting'",
+    "version": "npm version patch",
     "postversion": "git push && git push --tags"
   },
   "repository": {

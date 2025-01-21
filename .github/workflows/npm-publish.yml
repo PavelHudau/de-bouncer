@@ -25,6 +25,6 @@ jobs:
       - run: npm run build
       - run: npm test
       - run: npm run version
-      - run: npm publish --access public
+      - run: npm publish --access public --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.DE_BOUNCER_PUBLISH_TOKEN_GITHUB }}
