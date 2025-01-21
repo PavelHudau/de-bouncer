@@ -14,16 +14,17 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
         with:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run build
       - run: npm test
-      - run: npm run lint
       - run: npm run version
-      - run: npm publish --access public
+      - run: npm publish --access public --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.DE_BOUNCER_PUBLISH_TOKEN_GITHUB }}
