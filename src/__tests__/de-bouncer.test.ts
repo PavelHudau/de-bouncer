@@ -262,7 +262,7 @@ test('DeBouncer with ConstDebouncerStrategy', async () => {
   // GIVEN
   const delayMs = 100;
   const tracker: DurationTracker = new DurationTracker();
-  const deBouncer = new DeBouncer(new ConstDebouncerStrategy(delayMs), defaultTestBoundaries(delayMs*2, 0, 0));
+  const deBouncer = new DeBouncer(new ConstDebouncerStrategy(delayMs), defaultTestBoundaries(delayMs * 2, 0, 0));
   // WHEN
   tracker.start();
   await deBouncer.debounce();
