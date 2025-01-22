@@ -21,9 +21,10 @@
     "test": "jest --config jestconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
-    "commitall": "git diff-index --quiet HEAD -- && echo \"Nothing to commit\" || { git add -A src package.json package-lock.json && git commit -m \"auto-formatting\"; }",
-    "preversion": "npm run lint && npm run format",
-    "version": "npm run commitall",
+    "commitsrc": "git diff-index --quiet HEAD -- && echo \"Nothing to commit\" || { git add -A src && git commit -m \"auto-formatting\"; }",
+    "commitversion": "git diff-index --quiet HEAD -- && echo \"Nothing to commit\" || { git add -A package.json package-lock.json && git commit -m \"version bump\"; }",
+    "preversion": "npm run lint && npm run format && npm run commitsrc",
+    "version": "npm run commitversion",
     "postversion": "git push && git push --tags"
   },
   "repository": {
