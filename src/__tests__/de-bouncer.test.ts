@@ -1,6 +1,6 @@
 import DeBouncer from '../de-bouncer';
 import CancellationToken from '../cancellation-token';
-import { ExponentialDebounceStrategy } from '../debounce-strategies';
+import { ConstDebouncerStrategy, ExponentialDebounceStrategy, NoDelayDebounceStrategy } from '../debounce-strategies';
 import type { IDebounceStrategy } from '../debounce-strategies';
 import type { IBoundaries } from '../boundaries';
 
@@ -244,4 +244,54 @@ test('ExponentialStrategy when now time is less than last debounced, then delay 
   const secondDelay = strategy.nextDelayMs(0, 1);
   // THEN
   expect(secondDelay).toEqual(maxDelay);
+});
+
+test('ConstDebouncerStrategy test', async () => {
+  // GIVEN
+  const delayMs = 100;
+  const strategy: IDebounceStrategy = new ConstDebouncerStrategy(delayMs);
+  // WHEN
+  const secondDelay = strategy.nextDelayMs(1000, 0);
+  const halfASecondDelay = strategy.nextDelayMs(500, 0);
+  // THEN
+  expect(secondDelay).toEqual(delayMs);
+  expect(halfASecondDelay).toEqual(delayMs);
+});
+
+test('DeBouncer with ConstDebouncerStrategy', async () => {
+  // GIVEN
+  const delayMs = 100;
+  const tracker: DurationTracker = new DurationTracker();
+  const deBouncer = new DeBouncer(new ConstDebouncerStrategy(delayMs), defaultTestBoundaries(delayMs * 2, 0, 0));
+  // WHEN
+  tracker.start();
+  await deBouncer.debounce();
+  tracker.stop();
+  // THEN
+  expect(tracker.duration).toBeGreaterThanOrEqual(delayMs);
+  expect(tracker.duration).toBeLessThan(delayMs * 2);
+});
+
+test('NoDelayDebounceStrategy test', async () => {
+  // GIVEN
+  const strategy: IDebounceStrategy = new NoDelayDebounceStrategy();
+  // WHEN
+  const secondDelay = strategy.nextDelayMs(1000, 0);
+  const halfASecondDelay = strategy.nextDelayMs(500, 0);
+  // THEN
+  expect(secondDelay).toEqual(0);
+  expect(halfASecondDelay).toEqual(0);
+});
+
+test('DeBouncer with NoDelayDebounceStrategy', async () => {
+  // GIVEN
+  const tracker: DurationTracker = new DurationTracker();
+  const deBouncer = new DeBouncer(new NoDelayDebounceStrategy(), defaultTestBoundaries(200, 0, 0));
+  // WHEN
+  tracker.start();
+  await deBouncer.debounce();
+  tracker.stop();
+  // THEN
+  expect(tracker.duration).toBeGreaterThanOrEqual(0);
+  expect(tracker.duration).toBeLessThan(1);
 });
