@@ -21,3 +21,34 @@ export class ExponentialDebounceStrategy implements IDebounceStrategy {
     return delayMs;
   }
 }
+
+/**
+ * DeBouncer strategy that returns constant delay.
+ */
+export class ConstDebouncerStrategy implements IDebounceStrategy {
+  #delayMs: number;
+
+  constructor(delayMs: number) {
+    this.#delayMs = delayMs;
+  }
+
+  /*
+  Always returns the same delay.
+  */
+  public nextDelayMs(): number {
+    return this.#delayMs;
+  }
+}
+
+/**
+ * DeBouncer strategy that returns no delay. This is useful when testing your applications
+ * and you would like to remove time component from the equation.
+ */
+export class NoDelayDebounceStrategy implements IDebounceStrategy {
+  /*
+  Always returns 0 delay.
+  */
+  public nextDelayMs(): number {
+    return 0;
+  }
+}
