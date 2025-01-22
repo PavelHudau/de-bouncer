@@ -22,9 +22,8 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "commitsrc": "git diff-index --quiet HEAD -- && echo \"Nothing to commit\" || { git add -A src && git commit -m \"auto-formatting\"; }",
-    "commitversion": "git diff-index --quiet HEAD -- && echo \"Nothing to commit\" || { git add -A package.json package-lock.json && git commit -m \"version bump\"; }",
     "preversion": "npm run lint && npm run format && npm run commitsrc",
-    "version": "npm run commitversion",
+    "version": "echo version",
     "postversion": "git push && git push --tags"
   },
   "repository": {
