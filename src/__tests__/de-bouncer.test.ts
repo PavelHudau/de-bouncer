@@ -258,6 +258,20 @@ test('ConstDebouncerStrategy test', async () => {
   expect(halfASecondDelay).toEqual(delayMs);
 });
 
+test('DeBouncer with ConstDebouncerStrategy', async () => {
+  // GIVEN
+  const delayMs = 100;
+  const tracker: DurationTracker = new DurationTracker();
+  const deBouncer = new DeBouncer(new ConstDebouncerStrategy(delayMs), defaultTestBoundaries(delayMs*2, 0, 0));
+  // WHEN
+  tracker.start();
+  await deBouncer.debounce();
+  tracker.stop();
+  // THEN
+  expect(tracker.duration).toBeGreaterThanOrEqual(delayMs);
+  expect(tracker.duration).toBeLessThan(delayMs * 2);
+});
+
 test('NoDelayDebounceStrategy test', async () => {
   // GIVEN
   const strategy: IDebounceStrategy = new NoDelayDebounceStrategy();
@@ -267,4 +281,17 @@ test('NoDelayDebounceStrategy test', async () => {
   // THEN
   expect(secondDelay).toEqual(0);
   expect(halfASecondDelay).toEqual(0);
+});
+
+test('DeBouncer with NoDelayDebounceStrategy', async () => {
+  // GIVEN
+  const tracker: DurationTracker = new DurationTracker();
+  const deBouncer = new DeBouncer(new NoDelayDebounceStrategy(), defaultTestBoundaries(200, 0, 0));
+  // WHEN
+  tracker.start();
+  await deBouncer.debounce();
+  tracker.stop();
+  // THEN
+  expect(tracker.duration).toBeGreaterThanOrEqual(0);
+  expect(tracker.duration).toBeLessThan(1);
 });
