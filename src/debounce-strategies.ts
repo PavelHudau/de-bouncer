@@ -4,7 +4,8 @@ export interface IDebounceStrategy {
 
 /**
  * DeBouncer strategy that increases debounce delay exponentially
- * with increase frequency of debounce calls.
+ * with increase frequency of debounce calls. The more frequent the calls,
+ * the longer the delay, up to maxDelayMs.
  */
 export class ExponentialDebounceStrategy implements IDebounceStrategy {
   static readonly #k = -0.0025;
