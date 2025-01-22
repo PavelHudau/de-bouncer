@@ -1,6 +1,6 @@
 {
   "name": "@pavelhudau/de-bouncer",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "TypeScript and JavaScript De-Bouncer implementation.",
   "exports": {
     ".": "./dist/de-bouncer.js",
