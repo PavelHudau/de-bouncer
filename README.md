@@ -13,9 +13,9 @@ TypeScript and JavaScript De-Bouncer implementation.
 
 1. Import `DeBouncer`;
 1. Import a strategy you would like to delay. Supported strategies are:
-   1. `ExponentialDebounceStrategy` - use as default to prevent rapid and repetitive user actions that can flood your backend, but don't penalize "good" users.
+   1. `ExponentialDebounceStrategy` - use as default strategy. ExponentialDebounceStrategy helps to prevent rapid and repetitive user actions that can flood your backend. At the same time it doesn't penalizing "good" users with a wait time and keeps you application feel snappy.
    1. `ConstDebouncerStrategy` - use when you would like to keep the delay constant at all times.
-   1. `NoDelayDebounceStrategy` - use it with test, when 
+   1. `NoDelayDebounceStrategy` - use it primarily in your application tests, where you would like to remove time component from the equation.
 1. Create `DeBouncer` instance and wrap the backend call you'd like to protects with it. See the example below.
 1. Done!
 
